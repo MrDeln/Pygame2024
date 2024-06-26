@@ -1,0 +1,24 @@
+symma = int(input('всего сумма'))
+if symma < 500:
+    print('c вас',symma)
+elif symma == 500 or symma < 1000:
+    print('с вас',(symma/100)*10)
+    kinder = input('вы купите один киндр?')
+    if kinder == 'да':
+        print('тогда вам 2 киндр в подарок')
+    elif kinder == 'нет':
+        print('ну ладно')
+elif symma == 1000 or symma < 3000:
+    print('с вас',(symma/100)*20)
+    apengold = input('вы будете покупать апенгольд?')
+    if apengold == 'да':
+        print('тогда вам +2 шоколадке')
+    elif apengold == 'нет':
+        print('ну ладно')
+elif symma == 3000 or symma <5000:
+    print('с вас',(symma/100)*50)
+elif symma >= 5000:
+    print('c вас',symma,'+ торт')
+
+    
+    
