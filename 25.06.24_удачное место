@@ -36,7 +36,7 @@ hero = Sprite(user_x,user_y, 'mg1.jpg')
 hero.right = True
 hero.up = True
 # враг
-enemy = Sprite(200, 10, 'mg2.png')
+enemy = Sprite(30, 0, 'mg2.png')
 # переменные-"переключатели" движения для врага
 enemy.right = True
 enemy.up = False
@@ -54,14 +54,14 @@ while running:
         if e.type == pygame.QUIT:
             running  = False
         if e.type == pygame.KEYDOWN:
-            if e.key == pygame.K_LEFT:
-                hero.x = hero.x-5
-            if e.key == pygame.K_RIGHT:
-                hero.x = hero.x+5
-            if e.key == pygame.K_DOWN:
-                hero.y = hero.y+5
-            if e.key == pygame.K_UP:
-                hero.y = hero.y-5
+            if e.key == pygame.K_LEFT and hero.x > 0:
+                hero.x = hero.x-1
+            if e.key == pygame.K_RIGHT and hero.x <370:
+                hero.x = hero.x+1
+            if e.key == pygame.K_DOWN and hero.y < 370:
+                hero.y = hero.y+1
+            if e.key == pygame.K_UP and hero.y > 200:
+                hero.y = hero.y-1
             
     
 
@@ -80,6 +80,7 @@ while running:
         if hero.y > 360:
             hero.up = True
     '''
+    '''
     if enemy_new == True:
         enemy.x = random.randint(0,400)
         enemy.y = 0
@@ -87,17 +88,17 @@ while running:
         count += 1
         enemy_new = False
         enemy.up = False
-        
+     '''   
         
     if enemy.up == True:
-        enemy.y -= 5
-        if enemy.y < 0:
+        enemy.x += 5
+        if enemy.x == 370:
             enemy.up = False
-            enemy_new = True
+            #enemy_new = True
             
     else:
-        enemy.y += 5
-        if enemy.y > high:
+        enemy.x -= 5
+        if enemy.x == 0:
             enemy.up = True
         
 
@@ -122,3 +123,6 @@ while running:
 
 
 pygame.quit()
+
+weapon = Sprite(-200,-200,'images (2).jpg')
+
