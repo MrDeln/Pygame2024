@@ -1,17 +1,22 @@
-# coding: utf8
+#   oding: utf8
 import pygame
 import random
-user_x = int(input('x героя'))
-user_y = int(input('y героя'))
+hero_x = 200
+hero_y = 200
+pygame.font.init()
 enemy_new = True
+stef = 1
+metext = pygame.font.Font(None,1)
+score=0
 
 # задааем размер окна, создаем окно размера size
-size = [400, 400]
+size = [400, 480]
 window = pygame.display.set_mode(size)
 # задаем имя - в кавычках, т.к. текст - это строка
 pygame.display.set_caption('My second file')
 
 screen = pygame.Surface(size)
+scove = pygame.Surface([400, 80])
 
 class Sprite:
     def __init__(self, xpos, ypos, filename):
@@ -20,7 +25,9 @@ class Sprite:
         self.bitmap = pygame.image.load(filename)
     def render(self):
         screen.blit(self.bitmap,(self.x, self.y))
-
+        
+ar = Sprite(-200,-200,'images (2).jpg')
+ar.up = True
 
 def Intersect(s1_x, s2_x, s1_y, s2_y):
     if ((s1_x>s2_x-40) and (s1_x<s2_x+40) and (s1_y>s2_y-40) and (s1_y<s2_y+40)):
@@ -32,14 +39,15 @@ def Intersect(s1_x, s2_x, s1_y, s2_y):
 # герой
 
 # переменные-"переключатели" движения для героя
-hero = Sprite(user_x,user_y, 'mg1.jpg')
+hero = Sprite(hero_x,hero_y, 'mg1.jpg')
 hero.right = True
 hero.up = True
 # враг
-enemy = Sprite(30, 0, 'mg2.png')
+enemy = Sprite(120, 80, 'mg2.png')
 # переменные-"переключатели" движения для врага
 enemy.right = True
 enemy.up = False
+
 
 
 bad_screen = False
@@ -62,12 +70,22 @@ while running:
                 hero.y = hero.y+1
             if e.key == pygame.K_UP and hero.y > 200:
                 hero.y = hero.y-1
+            if e.key == pygame.K_SPACE:
+                ar.x = hero.x
+                ar.y = hero.y
+                ar.up = True
+                
+    leyt = metext.render('score',0,[255,0,0])             
+                
+                    
+                
             
     
 
     # задайте фоновый цвет
+    scove.fill([136, 105, 75])
     screen.fill([23, 198, 93])
-
+    
     # движение персонажей - аналогично тому,
     # что делали с квадратом, но теперь по вертикали
     '''
@@ -91,38 +109,46 @@ while running:
      '''   
         
     if enemy.up == True:
-        enemy.x += 5
-        if enemy.x == 370:
+        enemy.x += stef
+        if enemy.x > 370:
             enemy.up = False
             #enemy_new = True
             
     else:
-        enemy.x -= 5
-        if enemy.x == 0:
+        enemy.x -= stef
+        if enemy.x < 0:
             enemy.up = True
+            
+    if ar.up == True:
+        ar.y -= 10
         
 
 
      #столкновение персонажей
-    if Intersect(hero.x, enemy.x, hero.y, enemy.y):
-        hero.up = False
+    if Intersect(ar.x, enemy.x, ar.y, enemy.y):
+        ar.up = False
         enemy.up = True
-        print('\n GAME OVER')
-        print('Score:',count)
-        break
+        stef += 0.2
+        #print('\n GAME OVER')
+       # print('Score:',count)
+      #  break
 
     # отображение персонажей
     hero.render()
     enemy.render()
+    ar.render()
     
 
     # отображение окна
     window.blit(screen, [0, 0])
+    window.blit(scove, [0, 0])
+    score.bilt(metext)
     pygame.display.flip()
     pygame.time.delay(50)
 
 
 pygame.quit()
 
-weapon = Sprite(-200,-200,'images (2).jpg')
+
+
 
