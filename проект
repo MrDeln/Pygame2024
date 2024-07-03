@@ -1,5 +1,58 @@
 # coding: utf8
 import pygame
+import sys
+
+
+
+def load_menu():
+    items = [(160, 140, 'Game', (0, 255, 0), (255, 255, 255), 0),(160, 240, 'quit', (0, 0, 0), (255, 255, 255), 1)]
+    # создать вторую кнопку]
+
+    pygame.mouse.set_visible(True)
+
+    done = False
+    item = 0
+    while not done:
+        # закрасить фон полностью (screen и score)
+        screen.fill([131, 35, 35])
+        score.fill([131, 35, 35])
+
+        for e in pygame.event.get():
+                if e.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+
+                if e.type == pygame.MOUSEBUTTONDOWN and e.button == 1:
+                    if item == 0:
+                        done = True
+                    elif item == 1:
+                        pygame.quit()
+                        sys.exit()
+                        
+                        
+
+        pointer = pygame.mouse.get_pos()
+        for i in items:
+            if pointer[0]>i[0] and pointer[0]<i[0]+155 and pointer[1]>i[1] and pointer[1]<i[1]+50:
+                item = i[5]
+
+        for i in items:
+            if item == i[5]:
+                screen.blit(myFont.render(i[2], 1, i[4]), [i[0], i[1]-40])
+            else:
+                screen.blit(myFont.render(i[2], 1, i[3]), [i[0], i[1]-40])
+        
+        # отобразить score и screen на window
+        window.blit(screen,[0,40])
+        window.blit(score,[0,0])
+        pygame.display.flip()
+        # обновить дисплей
+
+
+
+
+
+
 pygame.font.init()
 mycount = pygame.font.Font("Phantacon.ttf",50)
 metext = pygame.font.Font("Nasser.ttf",20)
@@ -9,9 +62,9 @@ plat_y = 490
 plat2_x = 0
 plat2_y = 80
 shar_x = 0
-shar_y = 490
+shar_y = 200
 shar2_x = 490
-shar2_y = 80
+shar2_y = 300
 count = 0
 
 # размер окна
@@ -55,6 +108,9 @@ shar2333=True
 
 pygame.key.set_repeat(1,1)
 running = True
+
+load_menu()
+
 while running:
     # обработка событий
     for e in pygame.event.get():
@@ -72,23 +128,18 @@ while running:
                 
     if shar333 == True:
         shar.y += 1
-        if shar.y > 490:
-            shar333 = False
-    else:
+    if shar333 == False:
         shar.y -= 1
-        if shar.y < 80:
-            shar333 = True
+    
             
             
             
     if shar2333 == True:
         shar2.y -= 1
-        if shar2.y < 80:
-            shar2333 = False
-    else:
+        
+    if shar2333 == False:
         shar2.y += 1
-        if shar2.y > 490:
-            shar2333 = True
+        
             
             
     if Intersect(shar.x, plat.x, shar.y, plat.y):
@@ -96,14 +147,21 @@ while running:
         shar2333 = True
         count += 1
         
-    if Intersect(shar2.x, plat2.x, shar2.y, plat2.y):
+    if Intersect(shar.x, plat2.x, shar.y, plat2.y):
         shar333 = True
         shar2333 = False
         count += 1
+        
+    if Intersect(shar2.x, plat.x, shar2.y, plat.y):
+        shar2333 = True
+        count += 1
     
-            
+    if Intersect(shar2.x, plat2.x, shar2.y, plat2.y):
+        shar2333 = False
+        count += 1        
     
-            
+    if shar.y == 80 or shar.y == 500:
+        
     
               
                 
