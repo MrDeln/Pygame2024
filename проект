@@ -1,0 +1,145 @@
+# coding: utf8
+import pygame
+pygame.font.init()
+mycount = pygame.font.Font("Phantacon.ttf",50)
+metext = pygame.font.Font("Nasser.ttf",20)
+myFont = pygame.font.Font(None,20)
+plat_x = 490
+plat_y = 490
+plat2_x = 0
+plat2_y = 80
+shar_x = 0
+shar_y = 490
+shar2_x = 490
+shar2_y = 80
+count = 0
+
+# размер окна
+size = [500, 500]
+window = pygame.display.set_mode(size)
+pygame.display.set_caption('проект')
+score = pygame.Surface([500, 80])
+
+
+class Sprite:
+    def __init__(self, xpos, ypos, filename):
+        self.x = xpos
+        self.y = ypos
+        self.bitmap = pygame.image.load(filename)
+    def render(self):
+        screen.blit(self.bitmap,(self.x, self.y))
+        
+        
+def Intersect(s1_x, s2_x, s1_y, s2_y):
+    if ((s1_x>s2_x-40) and (s1_x<s2_x+40) and (s1_y>s2_y-40) and (s1_y<s2_y+40)):
+        return 1
+    else:
+        return 0        
+ 
+# задайте имя
+pygame.display.set_caption("First file")
+ 
+screen = pygame.Surface(size)
+ 
+# создание объекта
+plat = Sprite (plat_x,plat_y,'плат.jpg')
+plat.x = 100
+plat2 = Sprite (plat2_x,plat2_y,'плат.jpg')
+plat2.x = 0
+plat2.rghta = True
+x = 0
+shar = Sprite (shar_x,shar_y,'images (2).jpg')
+shar2 = Sprite (shar2_x,shar2_y,'images (2).jpg')
+shar333=True
+shar2333=True
+
+pygame.key.set_repeat(1,1)
+running = True
+while running:
+    # обработка событий
+    for e in pygame.event.get():
+        if e.type == pygame.QUIT:
+            running  = False
+        if e.type == pygame.KEYDOWN:
+            if e.key == pygame.K_LEFT and plat.x > 0:
+                plat.x -= 1
+            if e.key == pygame.K_RIGHT and plat.x < 430:
+                plat.x += 1
+            if e.key == pygame.K_a and plat2.x > 0:
+                plat2.x -= 1
+            if e.key == pygame.K_d and plat2.x < 430:
+                plat2.x += 1
+                
+    if shar333 == True:
+        shar.y += 1
+        if shar.y > 490:
+            shar333 = False
+    else:
+        shar.y -= 1
+        if shar.y < 80:
+            shar333 = True
+            
+            
+            
+    if shar2333 == True:
+        shar2.y -= 1
+        if shar2.y < 80:
+            shar2333 = False
+    else:
+        shar2.y += 1
+        if shar2.y > 490:
+            shar2333 = True
+            
+            
+    if Intersect(shar.x, plat.x, shar.y, plat.y):
+        shar333 = False
+        shar2333 = True
+        count += 1
+        
+    if Intersect(shar2.x, plat2.x, shar2.y, plat2.y):
+        shar333 = True
+        shar2333 = False
+        count += 1
+    
+            
+    
+            
+    
+              
+                
+                
+                
+    leyt = metext.render('score',10,[255,255,255])
+    text = mycount.render(str(count),10,[255,255,255])
+    # задайте фоновый цвет
+    screen.fill([0, 255, 255])
+    score.fill([136, 105, 75])
+ 
+    x += 1
+ 
+    # движение квадрата
+    
+    # отображение квадрата
+  #  screen.blit(square, [x, 0])
+    
+    
+    
+    plat.render()
+    plat2.render()
+    shar.render()
+    shar2.render()
+ 
+ 
+    # отображение окна
+    score.blit(leyt, [10, 30])
+    score.blit(text,[135, 12])
+    window.blit(screen, [0, 0])
+    window.blit(score, [0, 0])
+    pygame.display.flip()
+    pygame.time.delay(5)
+    
+    
+    
+ 
+ 
+pygame.quit()
